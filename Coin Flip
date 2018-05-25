@@ -1,0 +1,23 @@
+var num = prompt("Please enter a number", "Number goes here");
+
+var headscount = 0;
+var tailscount = 0;
+
+
+for(n=0;n<num;n++) {
+  var nums = Math.floor(Math.random() * 2);
+  if (nums === 0) {
+    headscount += 1;
+  }
+  if (nums === 1) {
+    tailscount += 1;
+  }
+}
+
+console.log("Total Coin Flips: " + num);
+console.log("=====================");
+console.log("Heads: " + headscount);
+console.log("Tails: " + tailscount);
+
+
+
