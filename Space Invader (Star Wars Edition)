@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <script src="index.js"></script>
+  </body>
+</html>
+
+window.onload = function() {
+  canvas = document.createElement("canvas");
+  canvas.width = 640;
+  canvas.height = 480;
+  // adding the canvas to the HTML
+  document.body.appendChild(canvas);
+  // create drawing Element
+  pen = canvas.getContext('2d');
+  // scanning for any keyboard action
+  //document.addEventListener('keydown',keyPush);
+  // mouse listeners
+  document.addEventListener("mousemove", mouseMoveHandler, false);
+  document.addEventListener("mousedown", mouseClickHandler, false);
+  spaceship = new Image();
+  spaceship.src="https://www.cgstudio.com/imgd/l/13/59009dc1a7024852698b4567/star_wars_x_wing_starfighter_yellow_04.png"
+
+  enemies = new Image();
+  enemies.src="http://www.swcommander.info/~swc/wiki/images/d/d6/TIE_fighter.png"
+
+
+   // set the fps
+  var fps = 30;
+  test = setInterval(update,1000/fps);
+  // create random enemies
+  setInterval(spawn,1000);
+}
+
+
+
+// the score
+score = 0;
+// the lives
+lives = 5;
+
+// player stats
+player_x = player_y = 100;
+player_speed = 15;
+player_dim = 30;
+// enemy stats
+enemy_list = [];
+enemy_dim = 25;
+enemy_speed = 5;
+
+// shot stats
+shots_list = [];
+shot_dim = 4;
+shot_speed = 7;
+
+// craete enemy spawn
+function spawn() {
+  enemy_list.push({x:canvas.width,y:Math.random()*canvas.height});
+}
+
+
+// update each frame
+function update() {
+  // create black background
+  pen.fillStyle = "black";
+  pen.fillRect(0,0,canvas.width,canvas.height);
+  // create player
+  pen.drawImage(spaceship,player_x-player_dim/2,player_y-player_dim/2,player_dim,player_dim);
+  // drawing our shots list
+  pen.fillStyle = "red";
+  for(s=0;s<shots_list.length;s++) {
+    shots_list[s].x += shot_speed;
+    pen.fillRect(
+      shots_list[s].x - shot_dim/2,
+      shots_list[s].y - shot_dim/2,
+      shot_dim,
+      shot_dim
+    );
+    for(var e=enemy_list.length - 1;e>=0;e--) {
+      // Calculate the distance between the shots and enemies
+      var diff_x = Math.abs(enemy_list[e].x - shots_list[s].x);
+      var diff_y = Math.abs(enemy_list[e].y - shots_list[s].y);
+      var dist = Math.sqrt(diff_x * diff_x + diff_y * diff_y);
+      // detects if a shot hits the enemy
+      if (dist < (shot_dim + enemy_dim) / 2) {
+          enemy_list.splice(e, 1);
+          score += 10;
+      }
+    }
+  }
+
+  // drawing our enemy list
+  for(var e=0;e<enemy_list.length;e++) {
+    enemy_list[e].x -= enemy_speed;
+    pen.drawImage(enemies,
+      enemy_list[e].x - enemy_dim / 2,
+      enemy_list[e].y - enemy_dim / 2,
+      enemy_dim,
+      enemy_dim);
+    // calculate the distance
+    var diff_x = Math.abs(enemy_list[e].x - player_x);
+    var diff_y = Math.abs(enemy_list[e].y - player_y);
+    var dist = Math.sqrt(diff_x * diff_y + diff_y * diff_y);
+    // detect if an enemy hits the player
+    if(dist<(player_dim + enemy_dim) / 2) {
+      // clear the stats and reset the player if he gets hit
+      shots_list = [];
+      enemy_list = [];
+      player_x = player_y = 100;
+      lives -= 1;
+      break;
+    }
+  }
+  // draw the score
+  pen.beginPath();
+  pen.fillStyle = "lime"
+  pen.font = "35px Arial";
+  pen.fillText("Score: " + score,20,60);
+  // draw the lives
+  pen.beginPath();
+  pen.fillStyle = "lime"
+  pen.font = "35px Arial";
+  pen.fillText("Lives: " + lives,20,30);
+  // put game over if lives run out
+  if(lives == 0) {
+    pen.beginPath();
+    pen.fillStyle = "black";
+    pen.font = "50px Courier";
+    pen.fillRect(0,0,canvas.width, canvas.height);
+    pen.fillStyle = "lime";
+    pen.fillText("Game Over",190,250);
+    clearInterval(test)
+  }
+}
+
+/*
+function keyPush(evt) {
+  switch(evt.keyCode) {
+    case 32: // space bar
+      shots_list.push({ x: player_x, y: player_y });
+      break;
+    case 37: // left arrow
+      player_x -= player_speed;
+      break;
+    case 38: // up arrow
+      player_y -= player_speed;
+      break;
+    case 39: // right arrow
+      player_x += player_speed;
+      break;
+    case 40: // down arrow
+      player_y += player_speed;
+      break;
+  }
+}
+*/
+
+function mouseMoveHandler(e) {
+  player_y = e.clientY
+}
+
+function mouseClickHandler(e) {
+  // this checks for the left button
+  if(e.button == 0) {
+    shots_list.push({x:player_x, y:player_y});
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
