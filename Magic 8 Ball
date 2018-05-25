@@ -1,0 +1,48 @@
+import random
+import time
+
+print('=======================')
+print('Welcome to Magic 8 Ball')
+print('=======================')
+
+min = 1
+max = 6
+
+option1 = 'Future looks great!'
+option2 = 'Sorry. Doesn\'t look good'
+option3 = 'Try again'
+option4 = 'NO'
+option5 = 'YES'
+option6 = 'Don\'t let memes be dreams!'
+
+def animation():
+  for x in range(3):
+    time.sleep(.5)
+    print('.')
+
+ask_again = 'y'
+ask_agian = 'n'
+while ask_again == 'y':
+  print('Ask me anything...')
+  input()
+  animation()
+  choices = random.randint(min,max)
+  if choices == 1:
+    print(option1)
+  elif choices == 2:
+    print(option2)
+  elif choices == 3:
+    print(option3)
+  elif choices == 4:
+    print(option4)
+  elif choices == 5:
+    print(option5)
+  elif choices == 6:
+    print(option6)
+  ask_again = input('Ask Again?')
+
+  
+  
+  
+  
+  
