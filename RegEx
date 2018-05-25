@@ -1,0 +1,25 @@
+function zipCode(str) {
+  zip = /^\d/;
+  x = zip.test(str);
+  return(x);
+}
+
+function whiteSpace(str) {
+  spc = /\s/;
+  y = spc.test(str);
+  return(y);
+}
+
+function socialSecurityNumber(str) {
+  ssn = /^[0-9]{3}-[0-9]{2}-[0-9]{4}$/;
+  z = ssn.test(str);
+  return(z);
+}
+var output = zipCode(218374);
+console.log(output);
+
+var output2 = whiteSpace(218374);
+console.log(output2);
+
+var output3 = socialSecurityNumber(123-45-6789);
+console.log(output3);
