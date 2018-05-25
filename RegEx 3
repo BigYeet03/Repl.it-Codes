@@ -1,0 +1,16 @@
+function countVowels(str) {
+  cv = /[aeiou]/g;
+  x = str.match(cv);
+  return(x.length);
+}
+
+function animalCount(str) {
+  ac = /\b(cat|dog|chicken)\b/g;
+  y = ac.test(str);
+  return(y);
+}
+var output = countVowels("I like to eat bananas.");
+console.log(output);
+
+var output2 = animalCount("there is a cat");
+console.log(output2);
