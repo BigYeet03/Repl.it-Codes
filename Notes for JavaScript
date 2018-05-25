@@ -1,0 +1,51 @@
+
+// string methods
+var doh = "dough boy";
+console.log(doh.toUpperCase()); //Upper
+console.log(doh.split(" ")); // Split
+console.log(doh.charAt(2)); // Pointer
+
+// Objects
+var person = {name:"Kim",age:88};
+console.log(person.name);
+console.log(person.age);
+
+// add properties to the object
+person.title = "Mrs.";
+person.gender = "Female";
+console.log(person);
+
+// modify properties
+person.name = "Kimberley";
+console.log(person);
+
+// deleting properties
+delete person.title;
+console.log(person);
+
+// compare properties
+console.log(person.name.length > person.gender.length);
+
+// array of objects
+var people = [
+  {name:"Kim",age:88},
+  {name:"Phil",age:78},
+  {name:"Chandler",age:68},
+  {name:"Jannet",age:58},
+  {name:"Tim",age:48},
+  {name:"Jim",age:38},
+  {name:"Sydney",age:28},
+  {name:"Caitlyn",age:18}
+  ];
+console.log(people[2].name);
+
+// create a loop to print all the names
+for(n=0;n<people.length;n++){
+  console.log(people[n].name);
+}
+
+
+
+
+
+
