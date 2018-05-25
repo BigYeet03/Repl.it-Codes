@@ -1,0 +1,6 @@
+function acronymMaker(str){
+  var re = /Portable Network Graphics/gi;
+  var acr = str.replace(re, 'PNG');
+  console.log(acr);
+}
+output = acronymMaker("Portable Network Graphics");
