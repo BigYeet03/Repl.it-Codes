@@ -1,0 +1,16 @@
+function userName(str) {
+  user = /^[a-z]+_\d{2}$/i;
+  x = user.test(str);
+  return(x);
+}
+
+function searchPrice(str) {
+  price = /\$\d+/;
+  y = price.exec(str);
+  return(y[0]);
+}
+var output = userName("michael_03");
+console.log(output);
+
+var output2 = searchPrice("The raspberry pie cost $35 at the store.");
+console.log(output2);
