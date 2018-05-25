@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+<canvas id="myCanvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
+<script>
+var canvas = document.getElementById("myCanvas");
+var pen = canvas.getContext("2d");
+
+// draw a line
+pen.moveTo(0,0);
+pen.lineTo(400,400);
+pen.stroke();
+
+// draw a circle
+pen.beginPath();
+pen.arc(200,200,100,0,4*Math.PI);
+pen.stroke();
+
+// changing fill color
+pen.fillStyle="#67c7f7"
+
+// draw some text
+pen.font = "25px Courier";
+pen.fillText("Big Fat Mega Yeet",75,85);
+
+// draw linear gradient
+var grd = pen.createLinearGradient(0,0,200,0);
+grd.addColorStop(0, "red");
+grd.addColorStop(1, "blue");
+
+pen.fillStyle = grd;
+pen.fillRect(0,360,400,60);
+
+</script>
+</body>
+</html>
+
