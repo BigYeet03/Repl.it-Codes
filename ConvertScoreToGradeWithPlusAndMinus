@@ -1,0 +1,52 @@
+function convertScoreToGradeWithPlusAndMinus(score) {
+  // your code here
+  var A = (100-90);
+  var B = (89-80);
+  var C = (79-70);
+  var D = (69-60);
+  var F = (59-0);
+  if (score > 100 || score < 0) {
+    return('INVALID SCORE');
+  }
+  if (score <= 90 && score >= 92) {
+    return('A-');
+  }
+  if (score >= 93 && score <= 97) {
+    return('A');
+  }
+  if (score >= 97 && score <= 100) {
+    return('A+');
+  }
+  if (score <= 89 && score >= 88) {
+    return('B+');
+  }
+  if (score >= 83 && score <= 87) {
+    return('B');
+  }
+  if (score >= 80 && score <= 82) {
+    return('B-');
+  }
+  if (score <= 79 && score >= 78) {
+    return('C+');
+  }
+  if (score >= 73 && score <= 77) {
+    return('C');
+  }
+  if (score >= 70 && score <= 72) {
+    return('C-');
+  }
+  if (score <= 69 && score >= 68) {
+    return('D+');
+  }
+  if (score >= 63 && score <= 67) {
+    return('D');
+  }
+  if (score >= 60 && score <= 62) {
+    return('D-');
+  }
+  if (score <= 59 && score >= 0) {
+    return('F');
+  }
+}
+var output = convertScoreToGradeWithPlusAndMinus(91);
+console.log(output);
