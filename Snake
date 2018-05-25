@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <canvas id="snake" width="400" height="400"></canvas>
+    <script src="index.js"></script>
+  </body>
+</html>
+
+window.onload=function() {
+  canvas = document.getElementById("snake");
+  pen = canvas.getContext("2d");
+  document.addEventListener("keydown",keyPush);
+  // set the frames per second
+  setInterval(game,1000/15);
+}
+
+// these are global variables so no var
+
+// set palyer x and y position
+player_x = 10;
+player_y = 10;
+
+// set the grid size
+grid_size = 20;
+tile_count = 20;
+
+// set player x and y speed
+x_speed = 0;
+y_speed = 0;
+
+// define the apple x and y position
+apple_x = 15;
+apple_y = 15;
+
+// this stores all of the x and y positions of the snake
+trail = [];
+// this is the starting length of the snake
+tail = 5;
+
+// number of lives
+lives = 5;
+
+// keep score number
+score = 0;
+
+// all game logic goes here
+function game() {
+  // update player position
+  player_x+=x_speed;
+  player_y+=y_speed;
+  
+  // snake boundaries
+  if(player_x < 0) {
+    player_x = 10;
+    x_speed = 0;
+    player_y = 10;
+    y_speed = 0;
+    lives -= 1;
+  }
+  if(player_x > tile_count - 1) {
+    player_x = 10;
+    x_speed = 0;
+    player_y = 10;
+    y_speed = 0;
+    lives -= 1;
+  }
+  if(player_y < 0) {
+    player_y = 10;
+    y_speed = 0;
+    player_x = 10;
+    x_speed = 0;
+    lives -= 1;
+  }
+  if(player_y > tile_count - 1) {
+    player_y = 10;
+    y_speed = 0;
+    player_x = 10;
+    x_speed = 0;
+    lives -= 1;
+  }
+  
+  // filling the background black
+  pen.fillStyle = "black";
+  pen.fillRect(0,0,canvas.width,canvas.height);
+  
+  // change the snake color
+  pen.fillStyle="lime";
+  
+  // draw the snake here
+  for(var i=0;i<trail.length;i++) {
+    pen.fillRect(trail[i].x*grid_size, trail[i].y*grid_size,grid_size-2,grid_size-2);
+    // detect if the player hits the tail
+    if(trail[i].x==player_x && trail[i].y==player_y) {
+      if(x_speed !== 0 || y_speed !== 0) {
+        lives-=1;
+        player_x = 10;
+        player_y = 10;
+        x_speed = 0;
+        y_speed = 0;
+      }
+      // set the snake back to 5
+      tail = 5;
+    }
+  }
+  // display score on screen
+  pen.beginPath();
+  pen.font = "25px Arial";
+  pen.fillStyle = "white";
+  pen.fillText("Score: " + score,20,40);
+  
+  // display lives on screen
+  pen.beginPath();
+  pen.font = "25px Arial";
+  pen.fillStyle = "white";
+  pen.fillText("Lives: " + lives,20,20);
+  
+
+  
+  // add the snake to the trail
+  trail.push({x:player_x,y:player_y});
+  // trims the trail of the snake if it exceeds the actual length
+  while(trail.length>tail) {
+    // this deletes the first value in an array
+    trail.shift();
+  }
+  // detect collision w/ apple
+  if(apple_x == player_x && apple_y == player_y) {
+    // adding 1 to the tail length
+    tail++;
+    // moving to random x and y
+    apple_x = Math.floor(Math.random()*tile_count);
+    apple_y = Math.floor(Math.random()*tile_count);
+    score += 1;
+  }
+  // draw the apple here
+  pen.fillStyle = "red";
+  pen.fillRect(apple_x*grid_size,apple_y*grid_size,grid_size,grid_size);
+  
+  if(lives <= 0) {
+    pen.fillRect(0,0,canvas.width,canvas.height);
+    pen.fillStyle = "white";
+    pen.font = "35px Arial";
+    pen.fillText("Game Over",110,200);
+  }
+}
+
+function keyPush(evt) {
+  switch(evt.keyCode) {
+    case 37:  // left arrow
+      x_speed = -1;
+      y_speed = 0;
+      break;
+    case 38:  // up arrow
+      x_speed = 0;
+      y_speed = -1;
+      break;
+    case 39:  // right arrow
+      x_speed = 1;
+      y_speed = 0;
+      break;
+    case 40:  // down arrow
+      x_speed = 0;
+      y_speed = 1;
+      break;
+    
+  }
+}
